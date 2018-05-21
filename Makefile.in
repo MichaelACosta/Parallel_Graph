@@ -1,0 +1,22 @@
+CPP := g++
+#clang++ 
+
+##TINYSTM##
+
+TINY_STM_ROOT_DIR = ./tinySTM
+TINY_STM_BIN_DIR = ${TINY_STM_ROOT_DIR}/lib
+TINY_STM_INC_DIR = ${TINY_STM_ROOT_DIR}/include
+
+##CÓDIGO GRAPH##
+
+GRAPH_INC = ./include
+SRC_DIR = ./src
+TARGET_DIR = ./target
+OBJ_DIR = ./target/obj
+
+##FLAGS##
+
+LDFLAGS = -lpthread -L$(TINY_STM_BIN_DIR) -lstm
+#CPPFLAGS = -std=c++11 -stdlib=libc++ -I$(TINY_STM_INC_DIR) -I$(GRAPH_INC)
+CPPFLAGS = -std=c++11 -pthread -I$(TINY_STM_INC_DIR) -I$(GRAPH_INC)
+# -lrt
