@@ -4,7 +4,6 @@
 #include <graph.hpp>
 #include <graphatomic.hpp>
 
-
 GraphAtomic::GraphAtomic(){
 	int i, c;
 	for (i = 0; i < size; ++i){
@@ -15,7 +14,6 @@ GraphAtomic::GraphAtomic(){
 			vetor[i][c].store(0, memory_order_relaxed);
 		}
 	}
-//	cout << "Grafo criado.\n";
 }
 
 void GraphAtomic::insertNode(int node){
@@ -45,7 +43,6 @@ void GraphAtomic::changeEdge(int l, int c){
 	if (l!=c){
 		this->insertNode(l);
 		this->insertNode(c);
-		
 		vetor[l][c].store(1, memory_order_relaxed);
 	}
 }
@@ -70,7 +67,6 @@ void GraphAtomic::decreaseEdge(int l, int c){
 			i--;
 			vetor[l][c].store(i, memory_order_relaxed);
 		}
-
 		if(!this->getVal(l,c)){
 			if(this->testNode(l) && this->testNode(c)){
 				int i, flagl=0, flagc=0;
@@ -79,7 +75,6 @@ void GraphAtomic::decreaseEdge(int l, int c){
 						if(this->getVal(l,i) || this->getVal(i,l)){
 							flagl=1;
 						}
-
 						if(this->getVal(c,i) || this->getVal(i,c)){
 							flagc=1;
 						}
@@ -92,9 +87,7 @@ void GraphAtomic::decreaseEdge(int l, int c){
 					this->deletNode(c);
 				}
 			}
-		}	
-
-		
+		}
 	}
 }
 
