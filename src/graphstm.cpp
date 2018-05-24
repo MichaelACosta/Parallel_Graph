@@ -3,21 +3,15 @@
 #include <graph.hpp>
 #include <graphstm.hpp>
 
-
 GraphStm::GraphStm(){
 	int i, c;
 	for (i = 0; i < size; ++i){
-//		cout<<"ta indo\n";
 		TM_INIT_THREAD;
 		TM_START(0,RW);
-//		cout<<"dentro\n";
 		TM_STORE(&flag[i], 0);
-//		cout<<"quase\n";
 		TM_COMMIT;
-//		cout<<"foi\n";
 		TM_EXIT_THREAD;
 	}
-
 	for (i = 0; i < size; ++i){
 		for (c = 0; c < size; ++c){
 			TM_INIT_THREAD;
@@ -27,7 +21,6 @@ GraphStm::GraphStm(){
 			TM_EXIT_THREAD;
 		}
 	}
-//	cout << "Grafo criado.\n";
 }
 
 void GraphStm::insertNode(int node){
@@ -57,7 +50,6 @@ bool GraphStm::testNode(int node)const{
 		ret= false;
 	}
 	TM_COMMIT;
-
 	return ret;
 }
 
@@ -65,7 +57,6 @@ void GraphStm::changeEdge(int l, int c){
 	if (l!=c){
 		this->insertNode(l);
 		this->insertNode(c);
-		
 		TM_START(0,RW);
 		TM_STORE(&vetor[l][c], 1);
 		TM_COMMIT;
@@ -98,7 +89,6 @@ void GraphStm::decreaseEdge(int l, int c){
 			TM_STORE(&vetor[l][c], aux);
 			TM_COMMIT;
 		}
-
 		if(!this->getVal(l,c)){
 			if(this->testNode(l) && this->testNode(c)){
 				int i, flagl=0, flagc=0;
@@ -107,7 +97,6 @@ void GraphStm::decreaseEdge(int l, int c){
 						if(this->getVal(l,i) || this->getVal(i,l)){
 							flagl=1;
 						}
-
 						if(this->getVal(c,i) || this->getVal(i,c)){
 							flagc=1;
 						}
@@ -121,21 +110,17 @@ void GraphStm::decreaseEdge(int l, int c){
 				}
 			}
 		}
-
 	}
-//	cout<<"decreaseEdge executado.\n";
 }
 
 int GraphStm::getVal(int l, int c) const{
 	int val=0;
 	int aux=0;
-
 	TM_START(0,RW);
 	aux= TM_LOAD(&vetor[l][c]);
 	if(aux){
 		val=aux;
 	}
 	TM_COMMIT;
-
 	return val;
 }
