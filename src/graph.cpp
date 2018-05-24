@@ -2,7 +2,6 @@
 #include <queue>
 #include <graph.hpp>
 
-
 Graph::Graph(){
 	int i, c;
 	for (i = 0; i < size; ++i){
@@ -13,7 +12,6 @@ Graph::Graph(){
 			vetor[i][c]=0;
 		}
 	}
-//	cout << "Grafo criado.\n" << size << "\n";
 }
 
 void Graph::insertNode(int node){
@@ -43,7 +41,6 @@ void Graph::changeEdge(int l, int c){
 	if (l!=c){
 		this->insertNode(l);
 		this->insertNode(c);
-		
 		vetor[l][c]=1;
 	}
 }
@@ -64,7 +61,6 @@ void Graph::decreaseEdge(int l, int c){
 		if(this->getVal(l,c)){
 			vetor[l][c]--;
 		}
-
 		if(!this->getVal(l,c)){
 			if(this->testNode(l) && this->testNode(c)){
 				int i, flagl=0, flagc=0;
@@ -73,7 +69,6 @@ void Graph::decreaseEdge(int l, int c){
 						if(this->getVal(l,i) || this->getVal(i,l)){
 							flagl=1;
 						}
-
 						if(this->getVal(c,i) || this->getVal(i,c)){
 							flagc=1;
 						}
@@ -99,14 +94,12 @@ int Graph::getVal(int l, int c)const{
 	return val;
 }
 
-
 int Graph::Dijkstra(int inicio, int fim) const{
 	int dist[size], adj[size], i, j;
 	bool visitados[size];
 	priority_queue < int > lista;
-
 	if(testNode(inicio) && testNode(fim)){
-		//inicializa valores e listas	
+		//inicializa valores e listas
 		for (i = 0; i < size; i++){
 			adj[i]=infinito;
 			dist[i]=infinito;
@@ -114,16 +107,13 @@ int Graph::Dijkstra(int inicio, int fim) const{
 		}
 		dist[inicio]=0;
 		lista.push(inicio);
-
 		//busca caminhos na lista de prioridade
 		while(!lista.empty()){
 			int u=lista.top(); //pega topo da lista
 			lista.pop(); //remove da lista
-
 			//verifica se nodo não foi visitado
 			if(visitados[u]==false){
 				visitados[u]=true; //marca visitado
-
 				//reinicia lista de adj e pega os vetores adjacentes a u
 				j=0;
 				for (i = 0; i < size; i++){
@@ -133,12 +123,10 @@ int Graph::Dijkstra(int inicio, int fim) const{
 						j++;
 					}
 				}
-
 				//percorre lista de adj
 				i=0;
 				while((adj[i]<infinito)&&(i<size)){
 					int custo=this->getVal(u, adj[i]); //vetor[u][adj[i]];
-
 					//relaxa (u,v)
 					if(dist[adj[i]] > (dist[u]+custo)){
 						dist[adj[i]]=dist[u]+custo;
@@ -146,17 +134,11 @@ int Graph::Dijkstra(int inicio, int fim) const{
 					}
 					i++;
 				}
-
 			}
-
 		}
 		return dist[fim];
 	}
 	return 0;
 }
 
-Graph::~Graph(){
-//	delete []vetor;
-//	delete []flag;
-//	cout << "Destrutor executado.\n";
-}
+Graph::~Graph(){}
